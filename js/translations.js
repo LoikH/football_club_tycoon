@@ -49,16 +49,17 @@ const TRANSLATIONS = {
         per_second: "par seconde",
 
         // --- TUTORIAL MODAL ---
-        tuto_title: "📖 GUIDE DE L'ADMINISTRATEUR",
-        tuto_subtitle: "CONTRÔLEZ VOTRE DESTINÉE SPORTIVE ET FINANCIÈRE",
-        tuto_p1: "Bienvenue à la tête de votre propre club de football ! Votre objectif est de transformer une modeste équipe de quartier en un empire financier mondial milliardaire.",
-        tuto_card1_title: "💸 1. CLIQUEZ ET INVESTISSEZ",
-        tuto_card1_text: "Cliquez manuellement sur le Stade pour générer vos premiers dollars. Achetez des infrastructures passives (Stands de Hot-Dogs, Boutique, Droits TV) pour générer des millions de dollars de manière 100% automatique chaque seconde.",
-        tuto_card2_title: "🃏 2. MERCATO & BOOSTS",
-        tuto_card2_text: "Ouvrez des packs de joueurs (Recrue, Pro, Légende) pour recruter les 24 stars du ballon d'or. Chaque joueur débloqué confère un bonus multiplicateur cumulatif permanent sur TOUT votre empire financier.",
-        tuto_card3_title: "🏆 3. REBIRTH DE PRESTIGE",
-        tuto_card3_text: "Une fois le seuil de $1.00B atteint, effectuez un Rebirth de Saison. Votre trésorerie et vos bâtiments sont réinitialisés, mais vous conservez TOUTES vos cartes de joueurs et gagnez +100% de revenus globaux cumulables à vie !",
-        tuto_close_btn: "C'EST PARTI ! ⚽",
+        tuto_title: "BIENVENUE AU BILLIONAIRE FC ! 🏟️",
+        tuto_subtitle: "GUIDE DE DÉMARRAGE RAPIDE",
+        tuto_step1_title: "Injetez des fonds actifs ⚽",
+        tuto_step1_text: "Cliquez de manière répétée sur le Stade à gauche pour générer activement de l'argent de départ.",
+        tuto_step2_title: "Automatisez vos revenus 🌭",
+        tuto_step2_text: "Achetez des infrastructures à droite (stands, boutiques, billetterie) pour générer automatiquement du cash par seconde ($ / sec).",
+        tuto_step3_title: "Recrutez des Superstars 📦",
+        tuto_step3_text: "Achetez des Packs dans le Mercato pour collectionner des cartes holographiques 3D. Chaque joueur ou doublon augmente de manière colossale et permanente tous vos revenus !",
+        tuto_step4_title: "Devenez Milliardaire 🏆",
+        tuto_step4_text: "Grimpez les divisions mondiales jusqu'à posséder un empire et régner sur la planète foot !",
+        tuto_close_btn: "C'EST PARTI, ENTRER SUR LE TERRAIN ! 🚀",
 
         // --- INFO / ENCYCLOPEDIA MODAL ---
         info_title: "ℹ️ ENCYCLOPÉDIE ET PROBABILITÉS",
@@ -130,7 +131,21 @@ const TRANSLATIONS = {
         card_level: "Niveau de carte :",
         card_boost: "Apport au Club :",
         card_bio_title: "BIOGRAPHIE DU JOUEUR",
-        card_detail_close_btn: "RETOURNER AU STADE"
+        card_detail_close_btn: "RETOURNER AU STADE",
+
+        // --- PENALTY MODAL ---
+        penalty_title: "⚽ PENALTY DÉCISIF !",
+        penalty_shoot_btn: "FRAPPER LE BALLON ! ⚡",
+
+        // --- PRESS MODAL ---
+        press_title: "🎤 CONFÉRENCE DE PRESSE PIÉGÉE",
+        press_subtitle: "RÉPONDEZ AUX JOURNALISTES",
+        press_choice_a_tag: "Option A (Diplomate) 🤝",
+        press_choice_b_tag: "Option B (Arrogante) 💰",
+
+        // --- AUDIT MODAL ---
+        audit_title: "💼 CONTRÔLE DU FAIR-PLAY FINANCIER",
+        audit_start_btn: "LANCER LA FALSIFICATION ! ✍️"
     },
     en: {
         // --- TOP status bar HUD ---
@@ -180,16 +195,17 @@ const TRANSLATIONS = {
         per_second: "per second",
 
         // --- TUTORIAL MODAL ---
-        tuto_title: "📖 CHAIRMAN'S GUIDE",
-        tuto_subtitle: "CONTROL YOUR SPORTING AND FINANCIAL DESTINY",
-        tuto_p1: "Welcome at the helm of your very own football club! Your goal is to transform a modest neighborhood squad into a multi-billion dollar global financial empire.",
-        tuto_card1_title: "💸 1. CLICK AND INVEST",
-        tuto_card1_text: "Click manually on the Stadium to generate your first dollars. Purchase passive infrastructures (Hot-Dog stands, Club Shop, TV Rights) to generate millions of dollars 100% automatically every single second.",
-        tuto_card2_title: "🃏 2. MERCATO & BOOSTS",
-        tuto_card2_text: "Open player booster packs (Recruit, Pro, Legend) to sign all 24 stars of world football. Every unlocked player provides a permanent cumulative multiplier bonus to your entire financial empire.",
-        tuto_card3_title: "🏆 3. PRESTIGE REBIRTH",
-        tuto_card3_text: "Once you hit the $1.00B treasury threshold, perform a Season Rebirth. Your cash and buildings are reset to zero, but you keep ALL your player cards and gain a permanent lifetime +100% income multiplier!",
-        tuto_close_btn: "LET'S PLAY! ⚽",
+        tuto_title: "WELCOME TO BILLIONAIRE FC! 🏟️",
+        tuto_subtitle: "QUICK START GUIDE",
+        tuto_step1_title: "Inject active funds ⚽",
+        tuto_step1_text: "Click repeatedly on the Stadium on the left to actively generate your starting cash.",
+        tuto_step2_title: "Automate your income 🌭",
+        tuto_step2_text: "Buy facilities on the right (stands, shops, tickets) to automatically generate cash per second ($ / sec).",
+        tuto_step3_title: "Recruit Superstars 📦",
+        tuto_step3_text: "Buy Packs in the Mercato to collect 3D holographic cards. Each player or duplicate increases all income colossally and permanently!",
+        tuto_step4_title: "Become a Billionaire 🏆",
+        tuto_step4_text: "Climb the global divisions until you own a massive empire and reign over the football world!",
+        tuto_close_btn: "LET'S PLAY, KICK OFF! 🚀",
 
         // --- INFO / ENCYCLOPEDIA MODAL ---
         info_title: "ℹ️ ENCYCLOPEDIA & PROBABILITIES",
@@ -261,6 +277,20 @@ const TRANSLATIONS = {
         card_level: "Card Level:",
         card_boost: "Contribution:",
         card_bio_title: "PLAYER BIOGRAPHY",
-        card_detail_close_btn: "RETURN TO STADIUM"
+        card_detail_close_btn: "RETURN TO STADIUM",
+
+        // --- PENALTY MODAL ---
+        penalty_title: "⚽ DECISIVE PENALTY!",
+        penalty_shoot_btn: "STRIKE THE BALL! ⚡",
+
+        // --- PRESS MODAL ---
+        press_title: "🎤 TRAPPED PRESS CONFERENCE",
+        press_subtitle: "ANSWER THE JOURNALISTS",
+        press_choice_a_tag: "Option A (Diplomatic) 🤝",
+        press_choice_b_tag: "Option B (Arrogant) 💰",
+
+        // --- AUDIT MODAL ---
+        audit_title: "💼 FINANCIAL FAIR PLAY CONTROL",
+        audit_start_btn: "START FALSIFICATION! ✍️"
     }
 };

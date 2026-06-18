@@ -518,19 +518,19 @@ class UiManager {
         const tutoSubtitle = document.querySelector(".tutorial-modal-content .subtitle");
         if (tutoSubtitle) tutoSubtitle.innerText = dict.tuto_subtitle;
 
-        const tutoP1 = document.querySelector(".tutorial-modal-content p");
-        if (tutoP1) tutoP1.innerText = dict.tuto_p1;
+        const tutoSteps = document.querySelectorAll(".tutorial-modal-content .tuto-step");
+        if (tutoSteps.length >= 4) {
+            tutoSteps[0].querySelector("h4").innerText = dict.tuto_step1_title;
+            tutoSteps[0].querySelector("p").innerText = dict.tuto_step1_text;
 
-        const tutoCards = document.querySelectorAll(".tuto-cards-grid .tuto-card");
-        if (tutoCards.length >= 3) {
-            tutoCards[0].querySelector("h4").innerText = dict.tuto_card1_title;
-            tutoCards[0].querySelector("p").innerText = dict.tuto_card1_text;
+            tutoSteps[1].querySelector("h4").innerText = dict.tuto_step2_title;
+            tutoSteps[1].querySelector("p").innerText = dict.tuto_step2_text;
 
-            tutoCards[1].querySelector("h4").innerText = dict.tuto_card2_title;
-            tutoCards[1].querySelector("p").innerText = dict.tuto_card2_text;
+            tutoSteps[2].querySelector("h4").innerText = dict.tuto_step3_title;
+            tutoSteps[2].querySelector("p").innerText = dict.tuto_step3_text;
 
-            tutoCards[2].querySelector("h4").innerText = dict.tuto_card3_title;
-            tutoCards[2].querySelector("p").innerText = dict.tuto_card3_text;
+            tutoSteps[3].querySelector("h4").innerText = dict.tuto_step4_title;
+            tutoSteps[3].querySelector("p").innerText = dict.tuto_step4_text;
         }
 
         const tutoClose = document.getElementById("tutorial-close-btn");
@@ -689,5 +689,32 @@ class UiManager {
 
         const detailClose = document.getElementById("card-detail-close-btn");
         if (detailClose) detailClose.innerText = dict.card_detail_close_btn;
+
+        // --- PENALTY MODAL ---
+        const penaltyH2 = document.querySelector("#penalty-modal h2");
+        if (penaltyH2) penaltyH2.innerText = dict.penalty_title;
+
+        const penaltyShootBtn = document.getElementById("btn-shoot-penalty");
+        if (penaltyShootBtn) penaltyShootBtn.innerText = dict.penalty_shoot_btn;
+
+        // --- PRESS MODAL ---
+        const pressH2 = document.querySelector("#press-modal h2");
+        if (pressH2) pressH2.innerText = dict.press_title;
+
+        const pressSubtitle = document.getElementById("press-modal-subtitle");
+        if (pressSubtitle) pressSubtitle.innerText = dict.press_subtitle;
+
+        const choiceATag = document.querySelector("#btn-press-choice-a .choice-tag");
+        if (choiceATag) choiceATag.innerText = dict.press_choice_a_tag;
+
+        const choiceBTag = document.querySelector("#btn-press-choice-b .choice-tag");
+        if (choiceBTag) choiceBTag.innerText = dict.press_choice_b_tag;
+
+        // --- AUDIT MODAL ---
+        const auditH2 = document.querySelector("#audit-modal h2");
+        if (auditH2) auditH2.innerText = dict.audit_title;
+
+        const auditStartBtn = document.getElementById("btn-start-audit");
+        if (auditStartBtn) auditStartBtn.innerText = dict.audit_start_btn;
     }
 }
