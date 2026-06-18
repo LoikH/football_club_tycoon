@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Football Club Tycoon : Road to Billionaire</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app-container">
+        <!-- Top Status HUD -->
+        <header id="top-hud" class="glass-panel">
+            <div id="club-brand">
+                <span id="club-emoji">🏆</span>
+                <div class="club-titles">
+                    <h1 id="club-name">BILLIONAIRE FC</h1>
+                    <span id="club-league">4ème Division - Amateur</span>
+                </div>
+            </div>
+            
+            <div id="treasury-hud">
+                <span class="label">TRÉSORERIE DU CLUB</span>
+                <div id="money-display" class="pulse-glow">$0.00</div>
+                <span id="income-sec-hud">+$0.00 / sec</span>
+                <span id="buff-indicator" class="buff-text" style="display: none; font-size: 0.72rem; font-weight: bold; margin-top: 2px;">🔥 BOOST : +30% (120s)</span>
+            </div>
+
+            <div class="hud-buttons">
+                <button id="btn-tuto" class="hud-action-btn">❓ TUTO</button>
+                <button id="btn-info" class="hud-action-btn">ℹ️ INFO</button>
+                <button id="btn-stats" class="hud-action-btn">📊 PROGRES</button>
+                <button id="btn-prestige" class="hud-action-btn" style="border-color: var(--neon-gold); color: var(--neon-gold);">🏆 REBIRTH</button>
+                <button id="btn-sound-toggle" class="hud-action-btn" style="border-color: var(--neon-cyan); color: var(--neon-cyan);">🔊 SON</button>
+                <button id="btn-lang-toggle" class="hud-action-btn" style="border-color: #00ff62; color: #00ff62;">🌐 FR</button>
+                <button id="btn-reset" class="hud-action-btn btn-danger">WIPE 🗑️</button>
+            </div>
+        </header>
+
+        <!-- Main Layout: 3 Columns -->
+        <main id="main-layout">
+            
+            <!-- Column 1: ACTIVE CLICKER ZONE -->
+            <section id="clicker-section" class="layout-column">
+                <div class="column-header">
+                    <h2>STADE & INVESTISSEMENT ACTIFS</h2>
+                </div>
+                <div class="column-content clicker-panel glass-panel">
+                    <p class="click-instructions">CLIQUEZ SUR LE STADE POUR INJECTER DES FONDS</p>
+                    
+                    <div id="stadium-clicker-container">
+                        <div id="stadium-clicker"></div>
+                    </div>
+
+                    <div class="click-multiplier-panel">
+                        <span id="click-value-txt">Valeur du clic : +$1.00</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Column 2: TRANSFER MARKET & CARD DECK -->
+            <section id="deck-section" class="layout-column">
+                <div class="column-header">
+                    <h2>MERCATO & COLLECTIBLE CARDS</h2>
+                </div>
+                
+                <div class="column-content glass-panel card-gallery-panel">
+                    <div class="mercato-shop">
+                        <h3>ACHAT DE PACKS DE JOUEURS</h3>
+                        <div class="pack-buttons-grid">
+                            <button id="btn-pack-bronze" class="pack-buy-btn bronze-pack">
+                                <span class="pack-icon">📦</span>
+                                <span class="pack-title">Pack Recrue</span>
+                                <span class="pack-cost" id="cost-pack-bronze">$50.00k</span>
+                            </button>
+                            <button id="btn-pack-silver" class="pack-buy-btn silver-pack">
+                                <span class="pack-icon">🥈</span>
+                                <span class="pack-title">Pack Pro</span>
+                                <span class="pack-cost" id="cost-pack-silver">$1.00M</span>
+                            </button>
+                            <button id="btn-pack-gold" class="pack-buy-btn gold-pack">
+                                <span class="pack-icon">⭐</span>
+                                <span class="pack-title">Pack Légende</span>
+                                <span class="pack-cost" id="cost-pack-gold">$500.00M</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="deck-title-container">
+                        <h3>VOTRE EFFECTIF (<span id="collected-cards-count">0</span>/24)</h3>
+                        <span class="global-mult-text">Boost Global : <span id="global-cards-mult" class="text-green">+0%</span></span>
+                    </div>
+
+                    <!-- Dynamic Card Deck Grid -->
+                    <div id="cards-grid" class="cards-grid">
+                        <!-- Cards injected dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Column 3: TYCOON UPGRADES & INFRASTRUCTURES -->
+            <section id="tycoon-section" class="layout-column">
+                <div class="column-header">
+                    <h2>INFRASTRUCTURES & COMMERCES</h2>
+                </div>
+                <div class="column-content upgrades-panel glass-panel" id="upgrades-list">
+                    <!-- Dynamic upgrades injected here -->
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Player Card Unboxing Modal Overlay -->
+        <div id="unboxing-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content glass-panel holo-unboxing-content">
+                <h2 id="unboxing-title">NOUVELLE RECRUTE !</h2>
+                <p id="unboxing-subtitle" class="subtitle">MERCATO EN COURS...</p>
+                
+                <!-- Card Container with Tilt effect -->
+                <div id="holo-card-container">
+                    <!-- Card injected dynamically -->
+                </div>
+
+                <div class="card-unboxing-info">
+                    <h3 id="unboxed-player-name">KYLIAN M'BAPPE</h3>
+                    <p id="unboxed-player-desc">Un attaquant légendaire de classe mondiale.</p>
+                </div>
+
+                <button id="unboxing-close-btn" class="action-btn">CONFIRMER LE TRANSFERT</button>
+            </div>
+        </div>
+
+        <!-- Tutorial Modal Overlay -->
+        <div id="tutorial-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content glass-panel tutorial-modal-content">
+                <h2>BIENVENUE AU BILLIONAIRE FC ! 🏟️</h2>
+                <p class="subtitle">GUIDE DE DÉMARRAGE RAPIDE</p>
+                
+                <div class="tutorial-steps">
+                    <div class="tuto-step">
+                        <span class="tuto-num">1</span>
+                        <div class="tuto-info">
+                            <h4>Injetez des fonds actifs ⚽</h4>
+                            <p>Cliquez de manière répétée sur le Stade à gauche pour générer activement de l'argent de départ.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tuto-step">
+                        <span class="tuto-num">2</span>
+                        <div class="tuto-info">
+                            <h4>Automatisez vos revenus 🌭</h4>
+                            <p>Achetez des infrastructures à droite (stands, boutiques, billetterie) pour générer automatiquement du cash par seconde ($ / sec).</p>
+                        </div>
+                    </div>
+
+                    <div class="tuto-step">
+                        <span class="tuto-num">3</span>
+                        <div class="tuto-info">
+                            <h4>Recrutez des Superstars 📦</h4>
+                            <p>Achetez des Packs dans le Mercato pour collectionner des cartes holographiques 3D. Chaque joueur ou doublon augmente de manière colossale et permanente tous vos revenus !</p>
+                        </div>
+                    </div>
+
+                    <div class="tuto-step">
+                        <span class="tuto-num">4</span>
+                        <div class="tuto-info">
+                            <h4>Devenez Milliardaire 🏆</h4>
+                            <p>Grimpez les divisions mondiales jusqu'à posséder un empire et régner sur la planète foot !</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="tutorial-close-btn" class="action-btn" style="margin-top: 25px;">C'EST PARTI, ENTRER SUR LE TERRAIN ! 🚀</button>
+            </div>
+        </div>
+
+        <!-- Info & Album Modal Overlay -->
+        <div id="info-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content glass-panel info-modal-content">
+                <h2>ℹ️ ENCYCLOPÉDIE BILLIONAIRE FC</h2>
+                <p class="subtitle">GUIDE DES CARTES ET DES BOOSTS</p>
+                
+                <div class="info-scroll-container">
+                    <div class="info-section">
+                        <h3>📈 TAUX DE DROP DES PACKS</h3>
+                        <table class="info-table">
+                            <thead>
+                                <tr>
+                                    <th>Pack</th>
+                                    <th>Commun</th>
+                                    <th>Rare</th>
+                                    <th>Épique</th>
+                                    <th>Légendaire</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>📦 Recrue ($50.00k)</td>
+                                    <td>80%</td>
+                                    <td>15%</td>
+                                    <td>5%</td>
+                                    <td>0%</td>
+                                </tr>
+                                <tr>
+                                    <td>🥈 Pro ($1.00M)</td>
+                                    <td>20%</td>
+                                    <td>55%</td>
+                                    <td>22%</td>
+                                    <td>3%</td>
+                                </tr>
+                                <tr>
+                                    <td>⭐ Légende ($500.00M)</td>
+                                    <td>0%</td>
+                                    <td>20%</td>
+                                    <td>55%</td>
+                                    <td>25%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="info-section">
+                        <h3>📋 ALBUM & BONUS DES JOUEURS (24)</h3>
+                        <p class="info-p">Chaque doublon augmente le niveau du joueur et cumule son boost global de revenus.</p>
+                        
+                        <div class="rarity-group">
+                            <h4 style="color: var(--rarity-legendary)">👑 LÉGENDAIRE (+45% à +100% / niveau)</h4>
+                            <ul>
+                                <li>👑 <strong>Pelé</strong> (AT, +100% / nv) - Le Roi du football mondial.</li>
+                                <li>👑 <strong>Z. Zidane</strong> (MD, +80% / nv) - Maestro de l'élégance suprême.</li>
+                                <li>👽 <strong>L. Messi</strong> (AT, +60% / nv) - L'extraterrestre, octuple Ballon d'Or.</li>
+                                <li>🐐 <strong>C. Ronaldo</strong> (AT, +60% / nv) - Athlète ultime des records.</li>
+                                <li>🤖 <strong>E. Haaland</strong> (AT, +45% / nv) - Cyborg scandinave programmé pour marquer.</li>
+                                <li>🚀 <strong>K. Mbappé</strong> (AT, +45% / nv) - Comète fulgurante de Bondy.</li>
+                            </ul>
+                        </div>
+
+                        <div class="rarity-group">
+                            <h4 style="color: var(--rarity-epic)">🟣 ÉPIQUE (+15% / niveau)</h4>
+                            <ul>
+                                <li>💎 <strong>J. Bellingham</strong> (MD) | 🎯 <strong>K. De Bruyne</strong> (MD)</li>
+                                <li>🕺 <strong>Vini Jr.</strong> (AT) | 👑 <strong>H. Kane</strong> (AT)</li>
+                                <li>👑 <strong>M. Salah</strong> (AT) | 🍷 <strong>Alisson B.</strong> (GB)</li>
+                            </ul>
+                        </div>
+
+                        <div class="rarity-group">
+                            <h4 style="color: var(--rarity-rare)">🔵 RARE (+6% / niveau)</h4>
+                            <ul>
+                                <li>✨ <strong>A. Griezmann</strong> (MD) | 🎻 <strong>L. Modrić</strong> (MD)</li>
+                                <li>🏹 <strong>Son H.M.</strong> (AT) | 🌶️ <strong>B. Saka</strong> (AT)</li>
+                                <li>🦒 <strong>T. Courtois</strong> (GB) | 🪨 <strong>R. Dias</strong> (DF)</li>
+                            </ul>
+                        </div>
+
+                        <div class="rarity-group">
+                            <h4 style="color: var(--rarity-common)">⚪ COMMUN (+2% / niveau)</h4>
+                            <ul>
+                                <li>🛡️ <strong>V. van Dijk</strong> (DF) | 🇫🇷 <strong>W. Saliba</strong> (DF)</li>
+                                <li>⚡ <strong>A. Hakimi</strong> (DF) | 🇳🇱 <strong>F. de Jong</strong> (MD)</li>
+                                <li>🪄 <strong>B. Fernandes</strong> (MD) | 🧤 <strong>M. Maignan</strong> (GB)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="info-close-btn" class="action-btn" style="margin-top: 20px;">RETOURNER AU STADE</button>
+            </div>
+        </div>
+
+        <!-- Custom Rebirth Confirmation Modal Overlay -->
+        <div id="rebirth-confirm-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content glass-panel rebirth-modal-content">
+                <h2>🏆 REBIRTH DE SAISON !</h2>
+                <p class="subtitle">ÊTES-VOUS PRÊT À TOUT RECOMMENCER ?</p>
+                
+                <div class="rebirth-info-body">
+                    <p class="rebirth-locked-p" style="text-align: center;">Êtes-vous prêt à réinitialiser votre trésorerie et vos infrastructures de club pour obtenir une Coupe de Prestige permanente ?</p>
+                    
+                    <div class="rebirth-benefits-box" style="margin-top: 15px;">
+                        <h4>🎁 AVANTAGES ET CONSÉQUENCES :</h4>
+                        <ul>
+                            <li>🏆 <strong>Multiplicateur de Prestige :</strong> Vous gagnerez +100% de bonus permanent cumulable sur TOUTES vos rentrées d'argent (clics et passifs).</li>
+                            <li>🃏 <strong>Effectif sécurisé :</strong> Vous conservez l'intégralité de vos cartes de joueurs holographiques et leurs niveaux !</li>
+                            <li>📉 <strong>Réinitialisation :</strong> Votre trésorerie et les niveaux de vos infrastructures repassent à 0.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="selector-columns" style="margin-top: 25px; gap: 15px;">
+                    <button id="rebirth-confirm-yes-btn" class="action-btn" style="flex: 1; border-color: var(--neon-gold); box-shadow: 0 0 15px rgba(255, 214, 0, 0.2); background: linear-gradient(135deg, #7d6f00, #3d3600);">OUI, REBORN ! 🏆</button>
+                    <button id="rebirth-confirm-no-btn" class="action-btn btn-danger" style="flex: 1; border-color: var(--neon-red); box-shadow: 0 0 15px rgba(255, 0, 85, 0.2); background: linear-gradient(135deg, #6a1111, #380d0d);">ANNULER ❌</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rebirth Locked Info Modal Overlay -->
+        <div id="rebirth-locked-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content glass-panel rebirth-modal-content">
+                <h2>🏆 REBIRTH DE SAISON INDISPONIBLE</h2>
+                <p class="subtitle" id="rebirth-locked-subtitle">IL VOUS MANQUE ENCORE DES FONDS</p>
+                
+                <div class="rebirth-info-body">
+                    <p class="rebirth-locked-p">Pour réinitialiser la saison, obtenir une Coupe de Prestige et doubler de manière permanente tous vos gains, vous devez disposer d'au moins <strong>$5.00M</strong> de trésorerie.</p>
+                    
+                    <div id="rebirth-missing-box">
+                        <span>Trésorerie manquante :</span>
+                        <span id="rebirth-missing-value" class="text-red">$0.00</span>
+                    </div>
+
+                    <div class="rebirth-benefits-box">
+                        <h4>🎁 AVANTAGES DU REBIRTH :</h4>
+                        <ul>
+                            <li>🏆 <strong>Multiplicateur de Prestige :</strong> Chaque Rebirth vous confère +100% de revenus globaux cumulables à vie !</li>
+                            <li>🃏 <strong>Effectif sécurisé :</strong> Vous conservez TOUTES vos cartes de joueurs holographiques durement gagnées et leurs niveaux.</li>
+                            <li>📈 <strong>Croissance démultipliée :</strong> Repartez sur une nouvelle saison et pulvérisez tous vos records à vitesse grand V.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <button id="rebirth-locked-close-btn" class="action-btn" style="margin-top: 25px;">RETOURNER AU STADE 🚀</button>
+            </div>
+        </div>
+
+        <!-- Card Detail Viewer Modal -->
+        <div id="card-detail-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content glass-panel card-detail-modal-content">
+                <div class="card-detail-layout">
+                    <!-- Left: Large Card Showcase -->
+                    <div class="card-detail-showcase" id="card-detail-showcase-container">
+                        <!-- Card will be injected dynamically here -->
+                    </div>
+                    
+                    <!-- Right: Card Metadata & Description -->
+                    <div class="card-detail-meta">
+                        <h2 id="card-detail-name">Nom du Joueur</h2>
+                        <p class="subtitle" id="card-detail-rarity">Rareté</p>
+                        
+                        <div class="card-detail-stats-box">
+                            <div class="detail-stat-item">
+                                <span class="stat-label" id="lbl-detail-position">Poste :</span>
+                                <span id="card-detail-position" class="stat-value">Attaquants</span>
+                            </div>
+                            <div class="detail-stat-item">
+                                <span class="stat-label" id="lbl-detail-level">Niveau de carte :</span>
+                                <span id="card-detail-level" class="stat-value">Lv. 1</span>
+                            </div>
+                            <div class="detail-stat-item">
+                                <span class="stat-label" id="lbl-detail-boost">Apport au Club :</span>
+                                <span id="card-detail-boost" class="stat-value text-green">+45% global boost</span>
+                            </div>
+                        </div>
+                        
+                        <div class="card-detail-bio-box">
+                            <h4 id="lbl-detail-bio">BIOGRAPHIE DU JOUEUR</h4>
+                            <p id="card-detail-desc" class="card-detail-desc-text">Description du joueur...</p>
+                        </div>
+                        
+                        <button id="card-detail-close-btn" class="action-btn" style="width: 100%; margin-top: 20px;">RETOURNER AU STADE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progrès / Statistics Modal -->
+        <div id="stats-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content glass-panel stats-modal-content">
+                <h2>CONTRÔLEUR DE PROGRÈS</h2>
+                <p class="subtitle">STATISTIQUES DU CLUB</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">Argent total accumulé</span>
+                        <span id="stat-total-earned" class="stat-value">$0.00</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Nombre total de clics</span>
+                        <span id="stat-total-clicks" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Packs Recrue ouverts</span>
+                        <span id="stat-packs-bronze" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Packs Pro ouverts</span>
+                        <span id="stat-packs-silver" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Packs Légende ouverts</span>
+                        <span id="stat-packs-gold" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Saisons Rebirth (🏆)</span>
+                        <span id="stat-prestige" class="stat-value">0</span>
+                    </div>
+                </div>
+
+                <button id="stats-close-btn" class="action-btn" style="margin-top: 30px;">RETOURNER AU BUREAU</button>
+            </div>
+        </div>
+
+        <!-- Floating Random Event Spawner Widget -->
+        <button id="random-event-btn" style="display: none; position: absolute; z-index: 999; width: 85px; height: 85px; border-radius: 50%; border: 3px solid var(--neon-cyan); background: rgba(8, 20, 10, 0.95); box-shadow: 0 0 35px rgba(0, 240, 255, 0.85); cursor: pointer; font-size: 2.8rem; align-items: center; justify-content: center; text-shadow: 0 0 12px rgba(0,240,255,0.6);">⚽</button>
+
+        <!-- Golden Jongle Keep-Up Ball -->
+        <button id="jongle-ball" style="display: none; position: absolute;">🤙</button>
+
+        <!-- Modal 1: Penalty Shootout -->
+        <div id="penalty-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content glass-panel penalty-modal-content">
+                <h2>⚽ PENALTY DÉCISIF !</h2>
+                <p class="subtitle" id="penalty-instruction">CADREZ VOTRE TIR DANS LA ZONE VERTE</p>
+                
+                <div class="penalty-arena">
+                    <div class="penalty-goal">
+                        <div class="goalkeeper-emoji" id="keeper-emoji">🏃‍♂️</div>
+                        <div class="goal-net"></div>
+                    </div>
+                    
+                    <div class="timing-gauge-container">
+                        <div class="timing-target-zone"></div>
+                        <div id="timing-slider"></div>
+                    </div>
+                </div>
+
+                <div class="modal-buttons" style="margin-top: 25px;">
+                    <button id="btn-shoot-penalty" class="action-btn">FRAPPER LE BALLON ! ⚡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 2: Press Conference -->
+        <div id="press-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content glass-panel press-modal-content">
+                <h2>🎤 CONFÉRENCE DE PRESSE PIÉGÉE</h2>
+                <p class="subtitle" id="press-modal-subtitle">RÉPONDEZ AUX JOURNALISTES</p>
+                
+                <div class="press-body">
+                    <div class="press-question-box">
+                        <span class="journalist-icon">🎤</span>
+                        <p id="press-question-text">« Votre club dépense des sommes colossales. N'est-ce pas indécent ? »</p>
+                    </div>
+
+                    <div class="press-choices-column">
+                        <button id="btn-press-choice-a" class="press-choice-btn">
+                            <span class="choice-tag">Option A (Diplomate) 🤝</span>
+                            <p id="press-choice-a-text">« Nous investissons pour l'économie locale et créons des emplois durables. »</p>
+                        </button>
+                        <button id="btn-press-choice-b" class="press-choice-btn">
+                            <span class="choice-tag">Option B (Arrogante) 💰</span>
+                            <p id="press-choice-b-text">« Je suis milliardaire, je dépense mon argent comme bon me semble ! »</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 3: FFP Financial Audit -->
+        <div id="audit-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content glass-panel audit-modal-content">
+                <h2>💼 CONTRÔLE DU FAIR-PLAY FINANCIER</h2>
+                <p class="subtitle" id="audit-timer-txt">DÉPÊCHEZ-VOUS : AUDIT EN COURS</p>
+                
+                <div class="audit-body">
+                    <p class="audit-p" id="audit-instructions">La commission de contrôle de l'UEFA inspecte vos comptes ! Cliquez d'urgence sur les <strong>5 documents confidentiels</strong> à l'écran pour falsifier vos bilans avant la fin du temps imparti !</p>
+                    
+                    <button id="btn-start-audit" class="action-btn" style="margin-top: 15px;">COMMENCER LA FALSIFICATION 🖋️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Universal Game Event Outcome Modal -->
+        <div id="outcome-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content glass-panel outcome-modal-content">
+                <div id="outcome-icon" style="font-size: 4.5rem; margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(255,255,255,0.2));">🏆</div>
+                <h2 id="outcome-title">TITRE DE L'ÉVÉNEMENT</h2>
+                <p id="outcome-subtitle" class="subtitle">SOUS-TITRE DE L'ÉVÉNEMENT</p>
+                
+                <div class="outcome-body-desc">
+                    <p id="outcome-desc-text" style="font-size: 0.85rem; opacity: 0.8; line-height: 1.45; text-align: center; margin-bottom: 25px;"></p>
+                </div>
+
+                <button id="outcome-close-btn" class="action-btn">RETOURNER AU STADE 🚀</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Modules -->
+    <script src="js/data/upgradesData.js"></script>
+    <script src="js/data/cardsData.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/gameState.js"></script>
+    <script src="js/uiManager.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
