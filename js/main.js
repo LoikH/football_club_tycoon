@@ -291,6 +291,7 @@ function setupEventListeners() {
         if (shouldStartJongleOnClose) {
             shouldStartJongleOnClose = false;
             isJongleActive = true;
+            lastJongleTime = performance.now(); // Reset time on start!
             jongleAnimId = requestAnimationFrame(updatePhysics);
         }
     });
@@ -570,11 +571,13 @@ let penaltySliderPos = 0;
 let penaltyDirection = 1;
 let penaltyAnimId = null;
 let isPenaltyActive = false;
+let lastTime = 0; // Framerate independence tracker
 
 function startPenaltyGame() {
     isPenaltyActive = true;
     penaltySliderPos = 0;
     penaltyDirection = 1;
+    lastTime = performance.now(); // Reset time on start!
 
     // Plongeon initial aléatoire du gardien (visuel)
     const keeper = document.getElementById("keeper-emoji");
@@ -587,11 +590,15 @@ function startPenaltyGame() {
 
     document.getElementById("penalty-modal").style.display = "flex";
 
-    function animate() {
+    function animate(timestamp) {
         if (!isPenaltyActive) return;
 
-        // Oscillation linéaire ralentie pour plus de précision (de 5.5 à 2.4)
-        penaltySliderPos += 2.4 * penaltyDirection;
+        if (!timestamp) timestamp = performance.now();
+        const dt = (timestamp - lastTime) / 16.666; // Normalize to 60fps
+        lastTime = timestamp;
+
+        // Oscillation linéaire ralentie pour plus de précision et indépendante du taux de rafraîchissement d'écran !
+        penaltySliderPos += 2.4 * penaltyDirection * Math.min(dt, 3);
         if (penaltySliderPos >= 100) {
             penaltySliderPos = 100;
             penaltyDirection = -1;
@@ -987,6 +994,7 @@ let ballX = 0;
 let ballVelY = 0;
 let ballVelX = 0;
 let jongleAnimId = null;
+let lastJongleTime = 0; // Framerate independence tracker
 
 function checkRosterComplete() {
     // Loop through all standard cards (not secret) and check if they are unlocked (level >= 1)
@@ -1035,8 +1043,12 @@ function spawnGoldenBall() {
     );
 }
 
-function updatePhysics() {
+function updatePhysics(timestamp) {
     if (!isJongleActive) return;
+
+    if (!timestamp) timestamp = performance.now();
+    const dt = (timestamp - lastJongleTime) / 16.666; // Normalize to 60fps
+    lastJongleTime = timestamp;
 
     const ballBtn = document.getElementById("jongle-ball");
     if (!ballBtn) return;
@@ -1044,11 +1056,11 @@ function updatePhysics() {
     // Display ball now that game is active!
     ballBtn.style.display = "flex";
 
-    // Apply mock gravity (reduced from 0.22 to 0.15 for easier, relaxed keepy-uppies!)
-    ballVelY += 0.15;
+    // Apply mock gravity (reduced from 0.22 to 0.15, now fully framerate-independent!)
+    ballVelY += 0.15 * Math.min(dt, 3);
 
-    ballX += ballVelX;
-    ballY += ballVelY;
+    ballX += ballVelX * Math.min(dt, 3);
+    ballY += ballVelY * Math.min(dt, 3);
 
     // Wall collisions bounce left/right
     if (ballX <= 0) {
